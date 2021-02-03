@@ -1,18 +1,27 @@
 
 //uniform iteration for container supporting iterators
 
-fn display_by_iterating_in_arrays(slice: &[i64; 5]) {
+fn display_by_iterating_in_arrays(mut slice: &[i64; 5]) {
 
-    // calling .iter() is optional for arrays
-    for value in slice.iter() {
-        print!("Curent value {}.\n", value);    
+    //or slice.iter() below
+    for &mut mut_ref in slice {
+        // iterating arrays yields immutable iterator by default
+        // error[E0308]: mismatched types
+        // |         types differ in mutability
+        // |
+        // = note:   expected reference `&i64`
+        //           found mutable reference `&mut _`
+        //  mut_ref = 1e7 as i64 + mut_ref;
+        print!("Curent value {}.\n", mut_ref);    
     }
 }
 
 fn display_by_iterating_in_vec(slice: &Vec<i64>) {
 
     // calling .iter() is optional for vectors
-    for value in slice {
+    
+    //same immutabilty by default
+    for &mut value in slice {
         print!("Curent value {}.\n", value);    
     }
 }
@@ -20,7 +29,9 @@ fn display_by_iterating_in_vec(slice: &Vec<i64>) {
 fn display_by_iterating_in_slices(slice: &[i64]) {
 
     // calling .iter() is optional for slices
-    for value in slice {
+
+    //same immutability by default
+    for &mut value in slice.iter() {
         print!("Curent value {}.\n", value);    
     }
 }
@@ -28,7 +39,9 @@ fn display_by_iterating_in_slices(slice: &[i64]) {
 fn display_by_iterating_in_string(slice: &String) {
 
     // calling .chars() is mandatory for dynamic strings
-    for value in slice.chars() {
+    
+    //same immutability by default
+    for &mut value in slice.chars() {
         print!("Curent value {}.\n", value);    
     }
 }
@@ -36,7 +49,9 @@ fn display_by_iterating_in_string(slice: &String) {
 fn display_by_iterating_in_str(slice: &str) {
 
     // calling .chars() is mandatory for static strings
-    for value in slice.chars() {
+    
+    //same immutability by default
+    for &mut value in slice.chars() {
         print!("Curent value {}.\n", value);    
     }
 }
